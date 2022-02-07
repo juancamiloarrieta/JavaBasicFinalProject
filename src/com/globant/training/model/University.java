@@ -20,8 +20,15 @@ public class University {
         return courses;
     }
 
-    public void addTeacher(Teacher teacher){
+    public void createTeacher(Teacher teacher, String classId){
+        this.idCounter++;
+        teacher.setId(String.valueOf(idCounter));
         this.teachers.add(teacher);
+        for (Course course: courses) {
+            if(course.getId() == classId){
+                course.addTeacher(teacher);
+            }
+        }
     };
 
     public void createStudent(Student student, String classId){
@@ -29,7 +36,7 @@ public class University {
         student.setId(String.valueOf(idCounter));
         this.students.add(student);
         for (Course course: courses) {
-            if(course.getId() == classId){
+            if(course.getId().equals(classId)){
                 course.addStudent(student);
             }
         }
@@ -40,13 +47,13 @@ public class University {
         course.setId(String.valueOf(idCounter));
         for (String id: idStudents) {
             for (Student student: students) {
-                if(student.getId() == id){
+                if(student.getId().equals(id)){
                     course.addStudent(student);
                 }
             }
         }
         for (Teacher teacher: teachers) {
-            if(teacher.getId() == idTeacher){
+            if(teacher.getId().equals(idTeacher)){
                 course.addTeacher(teacher);
             }
         }
@@ -54,18 +61,37 @@ public class University {
     }
 
     public List<Course> searchCoursesByStudentId(String id){
-        List<Course> courses = new ArrayList<>();
+        List<Course> coursesList = new ArrayList<>();
         for (Course course: courses) {
             for (Student student: course.getStudents()) {
-                if(student.getId() == id){
-                    courses.add(course);
+                if(student.getId().equals(id)){
+                    coursesList.add(course);
                 }
             }
         }
-        return courses;
+        return coursesList;
+    }
+
+    public Course searchCourseById(String id){
+        for (Course course: courses) {
+            if(course.getId().equals(id)){
+                return course;
+            }
+        }
+        return new Course("","");
     }
 
     public University(String name) {
         this.name = name;
+        this.teachers= new ArrayList<>();
+        this.students = new ArrayList<>();
+        this.courses = new ArrayList<>();
+    }
+
+    public University(String name, List<Course> courses, List<Student> students, List<Teacher> teachers) {
+        this.name = name;
+        this.courses = courses;
+        this.students = students;
+        this.teachers = teachers;
     }
 }

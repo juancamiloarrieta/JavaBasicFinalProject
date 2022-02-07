@@ -1,5 +1,6 @@
 package com.globant.training.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Course {
@@ -33,10 +34,28 @@ public class Course {
     public Course(String name, String classroom) {
         this.name = name;
         this.classroom = classroom;
+        this.students = new ArrayList<>();
+    }
+
+    public Course(String id, String name, String classroom, List<Student> students, Teacher teacher) {
+        this.id = id;
+        this.name = name;
+        this.classroom = classroom;
+        this.students = students;
+        this.teacher = teacher;
     }
 
     @Override
     public String toString() {
+        return "Class{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", classroom='" + classroom + '\'' +
+                '}';
+    }
+
+
+    public String toFullString() {
         return "Class{" +
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
